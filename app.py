@@ -8,14 +8,19 @@ with open("trained_decision_tree_pickle.pkl", "rb") as f:
 
 st.title("Decision Tree Prediction App")
 
-st.write("Enter feature values to get prediction")
+# Get number of features model expects
+n_features = model.n_features_in_
 
-# 🔢 Change number of inputs according to your dataset
-feature1 = st.number_input("Feature 1", value=0.0)
-feature2 = st.number_input("Feature 2", value=0.0)
+st.write(f"Model expects {n_features} input features")
+
+# Create inputs dynamically
+inputs = []
+for i in range(n_features):
+    value = st.number_input(f"Feature {i+1}", value=0.0)
+    inputs.append(value)
 
 if st.button("Predict"):
-    input_data = np.array([[feature1, feature2]])
+    input_data = np.array([inputs])
     prediction = model.predict(input_data)
 
     st.success(f"Prediction: {prediction[0]}")
